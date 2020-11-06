@@ -1,0 +1,16 @@
+#! /usr/bin/env node
+let path = require('path');
+require('source-map-support').install();
+
+let src = path.resolve(__dirname, '../src'); //优先使用src中的源文件（debug阶段），发布后会使用lib
+
+let yargv = require('yargs')
+    .alias('v', 'version')
+    .alias('h', 'help')
+    // 命令目录
+    .commandDir(src + '/commands/')
+    .demandCommand(1, "A command is required\n")
+    .strict()
+    .help();
+
+yargv.parse();

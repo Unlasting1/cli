@@ -3,10 +3,10 @@ const WebpackBar = require('webpackbar');
 const Webpack = require('webpack');
 const shellJs = require('shelljs');
 
-shellJs.rm('-rf', path.join(__dirname, './dist'));
 module.exports = (vendor, cwd) => {
+    shellJs.rm('-rf', path.join(cwd, './dist'));
     return {
-        mode: 'production',
+        mode: 'development',
         entry: {
             vendor
         },
@@ -20,7 +20,7 @@ module.exports = (vendor, cwd) => {
             }),
             new Webpack.DllPlugin({
                 name: 'dll__[name]__library',
-                path: path.join(cwd, './dist', '[name]-manifest.json'),
+                path: path.join(cwd, './dist', 'vendor-manifest.json'),
             }),
         ]
     };

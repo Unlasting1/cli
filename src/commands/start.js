@@ -1,7 +1,7 @@
 // 开发环境启动项目
 const path = require('path');
 const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
+const startWebpackDevServer = require('../utils/startWebpackDevServer')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackBar = require('WebpackBar');
 const colors = require('colors');
@@ -45,8 +45,26 @@ exports.handler = async argv => {
     });
 
     const conf = require('../webpackconf/webpack.config.dev')(cwd, singleItemPath, params);
-    const compiler = webpack(conf);
-    compiler.hooks.done.tap('clientCompile', (function () {
+
+    conf.devServer = {
+        contentBase: path.join(process.cwd(), `./dist`),
+        compress: true,
+        host: '127.0.0.1',
+        disableHostCheck: true,
+        progress: true,
+        overlay: true,
+        stats: {
+            colors: true
+        },
+        socket: false,
+        noInfo: true,
+        after(app, server, complier) {
+            console.log('webserver is running.');
+        },
+    };
+
+    const server = startWebpackDevServer(conf);
+    server.compiler.hooks.done.tap('clientCompile', (function () {
             let firstClientCompile = false;
 
             return stats => {
@@ -58,16 +76,5 @@ exports.handler = async argv => {
             };
         }())
     );
-    const server = new WebpackDevServer(compiler, {
-        contentBase: path.join(process.cwd(), `./dist`, './scripts'),
-        compress: true,
-        quiet: true,
-        host: '127.0.0.1',
-        disableHostCheck: true,
-        progress: true,
-        overlay: true
-    });
     server.listen(80);
-
-
 };

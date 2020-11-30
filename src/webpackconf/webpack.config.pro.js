@@ -16,7 +16,7 @@ module.exports = (cwd, singleItemPath, params) => {
         }
     })
     const proConf = {
-        mode: 'production',
+        mode: 'development',
         plugins: [
             new HtmlWebpackPlugin({
                 template: path.join(singleItemPath, `index.html`),
@@ -29,10 +29,13 @@ module.exports = (cwd, singleItemPath, params) => {
             new HtmlWebpackTagsPlugin({
                 append: false,
                 scripts: [
-                    { path: name },
+                    { path: './scripts/' + name },
                 ]
             }),
-        ]
+        ],
+        performance: {
+            hints: 'error'
+        }
     };
 
     return merge(baseConf, proConf);

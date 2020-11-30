@@ -5,8 +5,9 @@ module.exports = (cwd, singleItemPath, params) => {
     return {
         entry: path.join(singleItemPath, './main.jsx'),
         output: {
-            filename: '[name].[hash].js',
-            path: path.join(cwd, `./dist`, './scripts/')
+            filename: 'scripts/[name].[hash].js',
+            path: path.join(cwd, `./dist`),
+            chunkFilename: "scripts/[name].js"
         },
         module: {
             rules: [

@@ -16,7 +16,12 @@ module.exports = (cwd, singleItemPath, params) => {
         }
     })
     const devConf = {
+        // 将loader依赖和plugin依赖 抽到脚手架中
+        // context: path.join(__dirname, '../../'),
         mode: 'development',
+        output: {
+            pathinfo: true
+        },
         plugins: [
             new HtmlWebpackPlugin({
                 template: path.join(singleItemPath, `index.html`),
@@ -28,7 +33,7 @@ module.exports = (cwd, singleItemPath, params) => {
             new HtmlWebpackTagsPlugin({
                 append: false,
                 scripts: [
-                    { path: name },
+                    { path: './scripts/' + name },
                 ]
             })
         ],

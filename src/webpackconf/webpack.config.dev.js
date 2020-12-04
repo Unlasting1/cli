@@ -26,15 +26,6 @@ module.exports = (cwd, singleItemPath, params) => {
             new HtmlWebpackPlugin({
                 template: path.join(singleItemPath, `index.html`),
                 filename: `${params}.html`,
-            }),
-            new Webpack.DllReferencePlugin({
-                manifest: require(path.join(cwd, './dist', `./vendor-manifest.json`))
-            }),
-            new HtmlWebpackTagsPlugin({
-                append: false,
-                scripts: [
-                    { path: './scripts/' + name },
-                ]
             })
         ],
         devtool: 'inline-source-map',

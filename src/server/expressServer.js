@@ -7,7 +7,7 @@ const Express = require('express');
 const ExpressServer = require('webpack-dev-server/lib/Server.js');
 class Server extends ExpressServer {
     constructor(compiler, options = {}, _log) {
-        super(compiler, options = {}, _log);
+        super(compiler, options, _log);
     }
 
     // ExpressServer类中存在setupApp方法 这里只是重写了这个方法并加上了cors

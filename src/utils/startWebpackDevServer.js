@@ -28,11 +28,9 @@ const startWebPackDevServer = (config, options) => {
     } catch (err) {
         // 红色文字展示错误
         if (err instanceof webpack.WebpackOptionsValidationError) {
-            console.log(1);
             log.error(colors.error(options.stats.colors, err.message));
             process.exit(1);
         }
-
         throw err;
     }
 

@@ -49,32 +49,43 @@ exports.handler = async argv => {
     conf.devServer = {
         contentBase: path.join(process.cwd(), `./dist`),
         compress: true,
-        host: '127.0.0.1',
+        host: '0.0.0.0',
         disableHostCheck: true,
         progress: true,
         overlay: true,
         stats: {
-            colors: true
+            colors: true,
+            assets: false,
+            builtAt: false,
+            modules: false,
+            providedExports: false,
+            version: false,
+            hash: false,
+            entrypoints: false,
+            timings: false
         },
-        socket: false,
-        noInfo: true,
+        hot: true,
+        port: 80,
         after(app, server, complier) {
             console.log('webserver is running.');
         },
     };
 
     const server = startWebpackDevServer(conf);
-    server.compiler.hooks.done.tap('clientCompile', (function () {
+    server.compiler.hooks.done.tapPromise('clientCompile', (function () {
             let firstClientCompile = false;
 
             return stats => {
-                if (!firstClientCompile) {
-                    console.log();
-                    console.log(`Csr Page is running at http://${cliConf.host ? cliConf.host : 'localhost'}/` + `${params}.html`);
-                    firstClientCompile = true;
-                }
+                return new Promise ((resolve) => {
+                    if (!firstClientCompile) {
+                        console.log();
+                        console.log(`Csr Page is running at http://${cliConf.host ? cliConf.host : 'localhost'}/` + `${params}.html`);
+                        firstClientCompile = true;
+                    }
+                    resolve();
+                })
             };
         }())
     );
-    server.listen(80);
+
 };

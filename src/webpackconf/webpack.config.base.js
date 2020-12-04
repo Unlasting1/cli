@@ -1,5 +1,7 @@
 const path = require('path');
 const WebpackBar = require('webpackbar');
+const webpack = require('webpack');
+const AddDllToHtmlPlugin = require('../webpack/plugin/addDllToHtmlPlugin');
 
 module.exports = (cwd, singleItemPath, params) => {
     return {
@@ -44,7 +46,11 @@ module.exports = (cwd, singleItemPath, params) => {
             ],
         },
         plugins: [
-            new WebpackBar()
+            new WebpackBar(),
+            new webpack.DllReferencePlugin({
+                manifest: require(path.join(cwd, './dist', `./vendor-manifest.json`)),
+            }),
+            new AddDllToHtmlPlugin()
         ]
     };
 };

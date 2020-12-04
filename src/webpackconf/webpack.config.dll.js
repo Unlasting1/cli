@@ -13,14 +13,14 @@ module.exports = (vendor, cwd) => {
         output: {
             filename: 'dll.[name].[hash].js',
             path: path.join(cwd, './dist', './scripts'),
-            library: 'dll__[name]__library'
+            library: 'dll_[name]_[hash]_js'
         },
         plugins: [
             new WebpackBar({
             }),
             new Webpack.DllPlugin({
-                name: 'dll__[name]__library',
-                path: path.join(cwd, './dist', 'vendor-manifest.json'),
+                name: 'dll_[name]_[hash]_js',
+                path: path.join(cwd, './dist', 'vendor-manifest.json')
             }),
         ]
     };

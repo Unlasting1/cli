@@ -51,6 +51,10 @@ module.exports = (cwd, singleItemPath, params) => {
                 manifest: require(path.join(cwd, './dist', `./vendor-manifest.json`)),
             }),
             new AddDllToHtmlPlugin()
-        ]
+        ],
+        // loader解析先从项目中找 找不到就从脚手架中的node_modules找
+        resolveLoader: {
+            modules: [ path.join(__dirname, '../../node_modules'), 'node_modules' ],
+        }
     };
 };
